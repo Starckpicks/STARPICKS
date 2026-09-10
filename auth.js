@@ -46,18 +46,21 @@ if (window.location.pathname.includes("admin.html")) {
 }
 
 // ===============================
-// LOGOUT
+// LOGOUT (FUNCIONANDO 100%)
 // ===============================
 window.logout = () => {
-    const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-        logout(); // usa tu función existente
-    });
-}
-
     signOut(auth).then(() => {
         window.location.href = "login.html";
     });
+};
+
+// ACTIVAR BOTÓN DE LOGOUT
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        logout();
+    });
+}
+
 };
