@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarPicks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>StarPicks</h1>
+    <p>Tu plataforma de pronósticos deportivos</p>
+</header>
+
+<section id="upload">
+    <h2>Subir Jugada</h2>
+
+    <form id="betForm">
+
+        <h3>Partido</h3>
+        <input type="text" id="local" placeholder="Equipo Local" required>
+        <input type="text" id="visita" placeholder="Equipo Visitante" required>
+
+        <h3>Hora del Partido</h3>
+        <input type="time" id="hora" required>
+
+        <h3>Competición</h3>
+        <input type="text" id="competicion" placeholder="Ejemplo: La Liga, Champions, Copa Libertadores" required>
+
+        <h3>Pronósticos</h3>
+        <div id="listaPronosticos"></div>
+        <button type="button" id="agregarPronostico">Agregar Pronóstico</button>
+
+        <h3>Datos del Ticket</h3>
+        <input type="number" step="0.01" id="cuota" placeholder="Cuota Total" required>
+        <input type="number" step="0.1" id="stake" placeholder="Stake" required>
+
+        <h3>Tipo de Jugada</h3>
+        <select id="tipoJugada">
+            <option value="free">Gratuita</option>
+            <option value="premium">Premium</option>
+        </select>
+
+        <button type="submit">Guardar Jugada</button>
+    </form>
+</section>
+
+<section id="stats">
+    <h2>Estadísticas</h2>
+
+    <div class="stats-cuadro">
+        <h3>Acumulado de Pronósticos</h3>
+
+        <table class="cuadroExcel">
+            <thead>
+                <tr>
+                    <th>DETALLE</th>
+                    <th>CALENDARIO</th>
+                    <th>PRONÓSTICOS</th>
+                    <th>ACIERTOS</th>
+                    <th>FALLAS</th>
+                    <th>% ACIERTOS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>HOY</td>
+                    <td id="hoyCal"></td>
+                    <td id="hoyTotal"></td>
+                    <td id="hoyAciertos"></td>
+                    <td id="hoyFallas"></td>
+                    <td id="hoyPorcentaje"></td>
+                </tr>
+                <tr>
+                    <td>SEMANA</td>
+                    <td id="semCal"></td>
+                    <td id="semTotal"></td>
+                    <td id="semAciertos"></td>
+                    <td id="semFallas"></td>
+                    <td id="semPorcentaje"></td>
+                </tr>
+                <tr>
+                    <td>MES</td>
+                    <td id="mesCal"></td>
+                    <td id="mesTotal"></td>
+                    <td id="mesAciertos"></td>
+                    <td id="mesFallas"></td>
+                    <td id="mesPorcentaje"></td>
+                </tr>
+                <tr>
+                    <td>AÑO</td>
+                    <td id="anioCal"></td>
+                    <td id="anioTotal"></td>
+                    <td id="anioAciertos"></td>
+                    <td id="anioFallas"></td>
+                    <td id="anioPorcentaje"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="card"><h3>Ganancia Total</h3><p id="gananciaTotal">0</p></div>
+        <div class="card"><h3>Total Apostado</h3><p id="totalApostado">0</p></div>
+        <div class="card"><h3>Total Recuperado</h3><p id="totalRecuperado">0</p></div>
+        <div class="card"><h3>ROI</h3><p id="roi">0%</p></div>
+        <div class="card"><h3>Yield</h3><p id="yield">0%</p></div>
+        <div class="card"><h3>% Global de Aciertos</h3><p id="porcentajeGlobal">0%</p></div>
+    </div>
+
+</section>
+
+<section id="lista">
+    <h2>Jugadas Registradas</h2>
+
+    <table id="tablaJugadas">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Partido</th>
+                <th>Cuota</th>
+                <th>Stake</th>
+                <th>Competición</th>
+                <th>Pronósticos</th>
+                <th>Resultado Final</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<!-- MODAL EDITAR -->
+<div id="modalEditar" class="modal">
+    <div class="modal-content">
+        <h2>Editar Jugada</h2>
+
+        <div id="listaEditarPronosticos"></div>
+
+        <button id="guardarCambiosBtn">Guardar Cambios</button>
+        <button id="cerrarModalBtn">Cerrar</button>
+    </div>
+</div>
+
+<!-- MODAL YAPE -->
+<div id="modalYape" class="modal">
+    <div class="modal-content">
+        <h2>Pagar con Yape</h2>
+
+        <p>Escanea el QR para desbloquear la jugada:</p>
+
+        <img src="yapeqr.png" alt="QR Yape" style="width:200px; margin:auto; display:block;">
+
+        <p style="text-align:center; margin-top:10px;">
+            Monto: <strong>S/3.00</strong>
+        </p>
+
+        <button id="confirmarPagoBtn">Ya pagué</button>
+        <button id="cerrarYapeBtn">Cancelar</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

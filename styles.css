@@ -1,0 +1,532 @@
+/* ============================
+   ESTILOS GENERALES
+============================ */
+body {
+    background: #121212;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #1f1f1f;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #00eaff;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #00eaff;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    color: #ccc;
+}
+
+section {
+    padding: 20px;
+    margin: 10px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+/* ============================
+   FORMULARIO
+============================ */
+#upload h2 {
+    margin-top: 0;
+    color: #00eaff;
+}
+
+#upload input,
+#upload select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: none;
+    background: #2a2a2a;
+    color: #fff;
+}
+
+#upload button {
+    background: #00eaff;
+    color: #000;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#upload button:hover {
+    background: #00bcd4;
+}
+
+/* ============================
+   TABLA PRINCIPAL
+============================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table th {
+    background: #00eaff;
+    color: #000;
+    padding: 10px;
+    text-align: left;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+tr:hover {
+    background: #2a2a2a;
+}
+
+/* ============================
+   ICONOS DE RESULTADOS
+============================ */
+.ok {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.fail {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.pendiente {
+    color: #ffeb3b;
+    font-weight: bold;
+}
+
+/* ============================
+   BOTONES
+============================ */
+.btn-editar {
+    background: #4caf50;
+    padding: 5px 10px;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-borrar {
+    background: #f44336;
+    padding: 5px 10px;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-desbloquear {
+    background: #00eaff;
+    padding: 5px 10px;
+    border: none;
+    color: #000;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.btn-editar:hover {
+    background: #45a049;
+}
+
+.btn-borrar:hover {
+    background: #e53935;
+}
+
+.btn-desbloquear:hover {
+    background: #00bcd4;
+}
+
+/* ============================
+   TARJETAS DASHBOARD
+============================ */
+.dashboard-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: nowrap;
+}
+
+.card {
+    flex: 1;
+    background: #1f1f1f;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    border: 1px solid #333;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #00eaff;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* ============================
+   MODAL EDITAR
+============================ */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: #1e1e1e;
+    padding: 20px;
+    width: 400px;
+    margin: 100px auto;
+    border-radius: 10px;
+    border: 1px solid #00eaff;
+}
+
+.modal-content button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* ============================
+   PREMIUM: BLUR + CANDADO + ANIMACIONES
+============================ */
+
+/* BORROSO */
+.premium-blur {
+    filter: blur(6px);
+    position: relative;
+    pointer-events: none;
+}
+
+/* TEXTO PREMIUM */
+.premium-blur::after {
+    content: "🔒 PREMIUM";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #00eaff;
+    font-size: 14px;
+}
+
+/* ANIMACIÓN DEL CANDADO */
+@keyframes premiumPulse {
+    0% {
+        transform: translateX(-50%) scale(1);
+        filter: drop-shadow(0 0 2px #ffeb3b);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.25);
+        filter: drop-shadow(0 0 8px #ffeb3b);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        filter: drop-shadow(0 0 2px #ffeb3b);
+    }
+}
+
+/* CANDADO AMARILLO */
+.premium-lock {
+    position: relative;
+}
+
+.premium-lock::before {
+    content: "🔒";
+    font-size: 40px;
+    color: #ffeb3b;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    animation: premiumPulse 1.5s infinite ease-in-out;
+}
+
+/* DESTELLO DORADO */
+@keyframes premiumShine {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) rotate(25deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateX(100%) rotate(25deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(150%) rotate(25deg);
+    }
+}
+
+.premium-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-shine::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 215, 0, 0.0) 0%,
+        rgba(255, 215, 0, 0.4) 50%,
+        rgba(255, 215, 0, 0.0) 100%
+    );
+    animation: premiumShine 3s infinite ease-in-out;
+    pointer-events: none;
+}
+/* TABLA CHIDA Y ELEGANTE */
+#tablaJugadas {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 25px;
+}
+
+#tablaJugadas thead th {
+    background: #1e1e1e;
+    color: #00eaff;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+#tablaJugadas tbody tr {
+    background: #121212;
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+
+#tablaJugadas tbody tr:hover {
+    background: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+
+#tablaJugadas td {
+    padding: 12px;
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+/* PRONÓSTICOS */
+#tablaJugadas td div {
+    background: #1f1f1f;
+    padding: 6px 10px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 13px;
+}
+
+/* ICONOS ✔ ✘ ⏳ */
+.ok {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.fail {
+    color: #F44336;
+    font-weight: bold;
+}
+
+.pendiente {
+    color: #FFC107;
+    font-weight: bold;
+}
+
+/* BOTONES */
+.btn-editar {
+    background: #00a8ff;
+    border: none;
+    padding: 7px 12px;
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-editar:hover {
+    background: #008bd1;
+}
+
+.btn-borrar {
+    background: #e84118;
+    border: none;
+    padding: 7px 12px;
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-borrar:hover {
+    background: #c23616;
+}
+
+.btn-desbloquear {
+    background: #9b59b6;
+    border: none;
+    padding: 7px 12px;
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-desbloquear:hover {
+    background: #8e44ad;
+}
+/* TITULOS MÁS RESALTADOS */
+#tablaJugadas thead th {
+    background: #181818;
+    color: #00eaff;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #222;
+}
+
+/* FILAS SIN DESORDEN */
+#tablaJugadas tbody tr {
+    background: #121212;
+    border-bottom: 1px solid #1f1f1f;
+    transition: 0.2s ease;
+}
+
+/* CELDAS EN UNA SOLA LÍNEA */
+#tablaJugadas td {
+    padding: 12px;
+    color: #e3e3e3;
+    vertical-align: top;
+    white-space: nowrap; /* evita que se baje a otra fila */
+}
+
+/* PERMITIR QUE SOLO LOS PRONÓSTICOS SE DIVIDAN */
+#tablaJugadas td.pronosticos {
+    white-space: normal !important;
+}
+
+/* PRONÓSTICOS EN UNA SOLA LÍNEA */
+#tablaJugadas td div {
+    background: #1c1c1c;
+    padding: 5px 8px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    font-size: 13px;
+    display: block; /* cada pronóstico en su propia línea */
+}
+
+/* ICONOS */
+.ok { color: #4CAF50; font-weight: bold; }
+.fail { color: #F44336; font-weight: bold; }
+.pendiente { color: #FFC107; font-weight: bold; }
+
+/* BOTONES */
+.btn-editar,
+.btn-borrar,
+.btn-desbloquear {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.pronostico-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.like-btn, .dislike-btn {
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 18px;
+    opacity: 0.8;
+    transition: 0.2s ease;
+}
+
+.like-btn:hover {
+    color: #4CAF50;
+    opacity: 1;
+}
+
+.dislike-btn:hover {
+    color: #F44336;
+    opacity: 1;
+}
+.votado {
+    opacity: 0.4;
+    pointer-events: none;
+}
+.votado {
+    opacity: 0.4;
+    pointer-events: none;
+}
+.reacciones {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.reacciones div {
+  text-align: center;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.reacciones .contador {
+  font-size: 14px;
+  color: #555;
+}
+.votado {
+  opacity: 0.6;
+  pointer-events: none;
+}
