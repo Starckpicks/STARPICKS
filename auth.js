@@ -49,6 +49,14 @@ if (window.location.pathname.includes("admin.html")) {
 // LOGOUT
 // ===============================
 window.logout = () => {
+    const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        logout(); // usa tu función existente
+    });
+}
+
     signOut(auth).then(() => {
         window.location.href = "login.html";
     });
