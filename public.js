@@ -1,27 +1,29 @@
-console.log("StarPicks Público v3 iniciado...");
+console.log("StarPicks Público v3 conectado a Firestore...");
 
-// CARGAR JUGADAS DEL LOCALSTORAGE
-let jugadas = JSON.parse(localStorage.getItem("jugadas")) || [];
+import { collection, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// CARGAR VOTOS DEL USUARIO
-let votos = JSON.parse(localStorage.getItem("votosStarPicks")) || {}; 
+const db = window.firebaseDB;
 
-// MOSTRAR TABLA PÚBLICA
-function mostrarTablaPublica() {
+// CARGAR JUGADAS DESDE FIRESTORE
+async function cargarJugadasFirestore() {
+    const jugadasRef = collection(db, "jugadas");
+    const snapshot = await getDocs(jugadasRef);
+
     const tbody = document.querySelector("#tablaJugadas tbody");
     tbody.innerHTML = "";
 
-    jugadas.forEach((j, index) => {
-        const yaVoto = votos[index]; 
+    snapshot.forEach(doc => {
+        const j = doc.data();
 
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-            <td>${j.fecha}</td>
+            <td>${j.fecha || "-"}</td>
             <td>${j.hora || "--:--"}</td>
             <td>${j.competicion || "Sin competencia"}</td>
-            <td>${j.partido}</td>
-            <td>${j.cuotaTotal}</td>
+            <td>${j.local} vs ${j.visita}</td>
+            <td>${j.cuota}</td>
             <td>${j.stake}</td>
 
             <td>
@@ -46,11 +48,8 @@ function mostrarTablaPublica() {
             </td>
 
             <td>
-                <span class="like-btn ${yaVoto === 'like' ? 'votado' : ''}" onclick="likeJugada(${index})">👍</span>
-                <span class="dislike-btn ${yaVoto === 'dislike' ? 'votado' : ''}" onclick="dislikeJugada(${index})">👎</span>
-
-                &nbsp;&nbsp; 👍 ${j.likes || 0}
-                &nbsp;&nbsp; 👎 ${j.dislikes || 0}
+                👍 ${j.likes || 0} &nbsp;&nbsp;  
+                👎 ${j.dislikes || 0}
             </td>
         `;
 
@@ -58,31 +57,5 @@ function mostrarTablaPublica() {
     });
 }
 
-// LIKE
-function likeJugada(jIndex) {
-    if (votos[jIndex]) return alert("Ya votaste esta jugada");
-
-    jugadas[jIndex].likes = (jugadas[jIndex].likes || 0) + 1;
-
-    votos[jIndex] = "like";
-    localStorage.setItem("votosStarPicks", JSON.stringify(votos));
-    localStorage.setItem("jugadas", JSON.stringify(jugadas));
-
-    mostrarTablaPublica();
-}
-
-// DISLIKE
-function dislikeJugada(jIndex) {
-    if (votos[jIndex]) return alert("Ya votaste esta jugada");
-
-    jugadas[jIndex].dislikes = (jugadas[jIndex].dislikes || 0) + 1;
-
-    votos[jIndex] = "dislike";
-    localStorage.setItem("votosStarPicks", JSON.stringify(votos));
-    localStorage.setItem("jugadas", JSON.stringify(jugadas));
-
-    mostrarTablaPublica();
-}
-
 // INICIO
-mostrarTablaPublica();
+cargarJugadasFirestore();
