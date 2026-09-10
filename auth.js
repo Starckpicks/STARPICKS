@@ -62,5 +62,3 @@ if (logoutBtn) {
         logout();
     });
 }
-
-};
