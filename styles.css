@@ -573,3 +573,7 @@ tr:hover {
     transform: translateY(-2px);
     box-shadow: 0 0 14px rgba(255, 0, 0, 0.35);
 }
+header {
+    position: relative;
+}
+
