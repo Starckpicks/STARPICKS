@@ -530,3 +530,19 @@ tr:hover {
   opacity: 0.6;
   pointer-events: none;
 }
+
+.logout-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    float: right;
+    margin-top: -10px;
+}
+
+.logout-btn:hover {
+    background: #cc0000;
+}
