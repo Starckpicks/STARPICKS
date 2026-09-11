@@ -646,3 +646,12 @@ header {
     padding: 0;
     line-height: 1;           /* evita que se vea más abajo */
 }
+/* FIX DEFINITIVO PARA REACCIONES */
+.reacciones {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 25px !important;
+    padding: 10px 0 !important;
+}
