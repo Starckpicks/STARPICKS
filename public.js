@@ -9,13 +9,13 @@ const db = window.firebaseDB;
 async function darLike(id, likesActuales) {
     const ref = doc(db, "jugadas", id);
     await updateDoc(ref, { likes: likesActuales + 1 });
-    cargarJugadasFirestore(); // refresca la tabla
+    cargarJugadasFirestore();
 }
 
 async function darDislike(id, dislikesActuales) {
     const ref = doc(db, "jugadas", id);
     await updateDoc(ref, { dislikes: dislikesActuales + 1 });
-    cargarJugadasFirestore(); // refresca la tabla
+    cargarJugadasFirestore();
 }
 
 // CARGAR JUGADAS DESDE FIRESTORE
@@ -74,5 +74,6 @@ async function cargarJugadasFirestore() {
 // INICIO
 cargarJugadasFirestore();
 
-// INICIO
-cargarJugadasFirestore();
+// ⭐ EXPONER FUNCIONES AL DOM
+window.darLike = darLike;
+window.darDislike = darDislike;
