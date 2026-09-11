@@ -19,7 +19,8 @@ async function darLike(id, likesActuales) {
     votosUsuario[id] = "like";
     localStorage.setItem("votosStarPicks", JSON.stringify(votosUsuario));
 
-    cargarJugadasFirestore();
+    // NO recargamos toda la tabla
+    actualizarBotones(id);
 }
 
 async function darDislike(id, dislikesActuales) {
@@ -31,7 +32,17 @@ async function darDislike(id, dislikesActuales) {
     votosUsuario[id] = "dislike";
     localStorage.setItem("votosStarPicks", JSON.stringify(votosUsuario));
 
-    cargarJugadasFirestore();
+    // NO recargamos toda la tabla
+    actualizarBotones(id);
+}
+
+// DESACTIVAR BOTONES DESPUÉS DE VOTAR
+function actualizarBotones(id) {
+    const botones = document.querySelectorAll(`button[data-id='${id}']`);
+    botones.forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = "0.4";
+    });
 }
 
 // CARGAR JUGADAS DESDE FIRESTORE
@@ -81,6 +92,7 @@ async function cargarJugadasFirestore() {
 
             <td>
                 <button 
+                    data-id="${id}"
                     onclick="darLike('${id}', ${j.likes || 0})"
                     ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
                 >
@@ -88,6 +100,7 @@ async function cargarJugadasFirestore() {
                 </button>
 
                 <button 
+                    data-id="${id}"
                     onclick="darDislike('${id}', ${j.dislikes || 0})"
                     ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
                 >
