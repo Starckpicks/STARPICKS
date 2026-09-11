@@ -116,11 +116,13 @@ function mostrarTabla() {
         fila.innerHTML = `
             <td>${j.fecha}</td>
             <td>${j.hora || "--:--"}</td>
-            <td>${j.competicion || "Sin competencia"}</td>
 
+            <!-- 🔥 ORDEN CORREGIDO -->
             <td class="${esPremium ? 'premium-blur premium-lock premium-shine' : ''}">
                 ${j.partido}
             </td>
+
+            <td>${j.competicion || "Sin competencia"}</td>
 
             <td class="${esPremium ? 'premium-blur premium-lock premium-shine' : ''}">
                 ${j.cuotaTotal}
@@ -163,16 +165,23 @@ function mostrarTabla() {
 }
 
 // ===============================
-// BORRAR JUGADA
+// BORRAR JUGADA (CORREGIDO)
 // ===============================
 async function borrarJugada(index) {
-    const id = jugadas[index].id;
-    await deleteDoc(doc(db, "jugadas", id));
+    const jugada = jugadas[index];
+
+    if (!jugada || !jugada.id) {
+        alert("❌ Esta jugada ya no existe en Firebase.");
+        cargarJugadas();
+        return;
+    }
+
+    await deleteDoc(doc(db, "jugadas", jugada.id));
     cargarJugadas();
 }
 
 // ===============================
-// EDITAR JUGADA
+// EDITAR JUGADA (CORREGIDO)
 // ===============================
 function editarJugada(index) {
     jugadaActualIndex = index;
@@ -213,7 +222,10 @@ document.getElementById("guardarCambiosBtn").addEventListener("click", async () 
     else if (jugada.pronosticos.some(p => p.resultado === "perdido")) jugada.resultadoFinal = "perdido";
     else jugada.resultadoFinal = "pendiente";
 
-    await updateDoc(doc(db, "jugadas", jugada.id), jugada);
+    await updateDoc(doc(db, "jugadas", jugada.id), {
+        pronosticos: jugada.pronosticos,
+        resultadoFinal: jugada.resultadoFinal
+    });
 
     document.getElementById("modalEditar").style.display = "none";
     cargarJugadas();
