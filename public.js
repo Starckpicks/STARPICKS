@@ -1,9 +1,22 @@
 console.log("StarPicks Público v3 conectado a Firestore...");
 
-import { collection, getDocs } 
+import { collection, getDocs, doc, updateDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = window.firebaseDB;
+
+// FUNCIONES DE LIKE / DISLIKE
+async function darLike(id, likesActuales) {
+    const ref = doc(db, "jugadas", id);
+    await updateDoc(ref, { likes: likesActuales + 1 });
+    cargarJugadasFirestore(); // refresca la tabla
+}
+
+async function darDislike(id, dislikesActuales) {
+    const ref = doc(db, "jugadas", id);
+    await updateDoc(ref, { dislikes: dislikesActuales + 1 });
+    cargarJugadasFirestore(); // refresca la tabla
+}
 
 // CARGAR JUGADAS DESDE FIRESTORE
 async function cargarJugadasFirestore() {
@@ -13,8 +26,9 @@ async function cargarJugadasFirestore() {
     const tbody = document.querySelector("#tablaJugadas tbody");
     tbody.innerHTML = "";
 
-    snapshot.forEach(doc => {
-        const j = doc.data();
+    snapshot.forEach(docSnap => {
+        const j = docSnap.data();
+        const id = docSnap.id;
 
         const fila = document.createElement("tr");
 
@@ -48,13 +62,18 @@ async function cargarJugadasFirestore() {
             </td>
 
             <td>
-                👍 ${j.likes || 0} &nbsp;&nbsp;  
-                👎 ${j.dislikes || 0}
+                <button onclick="darLike('${id}', ${j.likes || 0})">👍 ${j.likes || 0}</button>
+                <button onclick="darDislike('${id}', ${j.dislikes || 0})">👎 ${j.dislikes || 0}</button>
             </td>
         `;
 
         tbody.appendChild(fila);
     });
+}
+
+// INICIO
+cargarJugadasFirestore();
+
 }
 
 // INICIO
