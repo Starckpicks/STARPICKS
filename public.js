@@ -59,8 +59,3 @@ async function cargarJugadasFirestore() {
 
 // INICIO
 cargarJugadasFirestore();
-
-}
-
-// INICIO
-cargarJugadasFirestore();
