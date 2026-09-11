@@ -5,16 +5,32 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = window.firebaseDB;
 
+// Cargar votos del usuario (localStorage)
+let votosUsuario = JSON.parse(localStorage.getItem("votosStarPicks")) || {}; 
+// votosUsuario[id] = "like" o "dislike"
+
 // FUNCIONES DE LIKE / DISLIKE
 async function darLike(id, likesActuales) {
+    if (votosUsuario[id]) return alert("Ya votaste esta jugada");
+
     const ref = doc(db, "jugadas", id);
     await updateDoc(ref, { likes: likesActuales + 1 });
+
+    votosUsuario[id] = "like";
+    localStorage.setItem("votosStarPicks", JSON.stringify(votosUsuario));
+
     cargarJugadasFirestore();
 }
 
 async function darDislike(id, dislikesActuales) {
+    if (votosUsuario[id]) return alert("Ya votaste esta jugada");
+
     const ref = doc(db, "jugadas", id);
     await updateDoc(ref, { dislikes: dislikesActuales + 1 });
+
+    votosUsuario[id] = "dislike";
+    localStorage.setItem("votosStarPicks", JSON.stringify(votosUsuario));
+
     cargarJugadasFirestore();
 }
 
@@ -29,6 +45,8 @@ async function cargarJugadasFirestore() {
     snapshot.forEach(docSnap => {
         const j = docSnap.data();
         const id = docSnap.id;
+
+        const yaVoto = votosUsuario[id]; // "like" o "dislike"
 
         const fila = document.createElement("tr");
 
@@ -62,8 +80,19 @@ async function cargarJugadasFirestore() {
             </td>
 
             <td>
-                <button onclick="darLike('${id}', ${j.likes || 0})">👍 ${j.likes || 0}</button>
-                <button onclick="darDislike('${id}', ${j.dislikes || 0})">👎 ${j.dislikes || 0}</button>
+                <button 
+                    onclick="darLike('${id}', ${j.likes || 0})"
+                    ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
+                >
+                    👍 ${j.likes || 0}
+                </button>
+
+                <button 
+                    onclick="darDislike('${id}', ${j.dislikes || 0})"
+                    ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
+                >
+                    👎 ${j.dislikes || 0}
+                </button>
             </td>
         `;
 
@@ -74,6 +103,6 @@ async function cargarJugadasFirestore() {
 // INICIO
 cargarJugadasFirestore();
 
-// ⭐ EXPONER FUNCIONES AL DOM
+// Exponer funciones al DOM
 window.darLike = darLike;
 window.darDislike = darDislike;
