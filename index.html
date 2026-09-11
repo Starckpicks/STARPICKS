@@ -28,9 +28,9 @@
 <section id="lista">
     <h2>Jugadas Registradas</h2>
 
-    <!-- ⭐ CONTADOR DE VISITAS SOLO VISUAL (SIN ROMPER NADA) ⭐ -->
+    <!-- ⭐ CONTADOR POR PERSONA ÚNICA ⭐ -->
     <div style="text-align:center; margin-bottom:15px; color:#00eaff; font-weight:bold;">
-        Visitantes:
+        Visitantes únicos:
         <span id="visitCounter">0</span>
     </div>
 
@@ -73,8 +73,59 @@
     window.firebaseDB = db;
 </script>
 
+<!-- ⭐ CONTADOR POR PERSONA ÚNICA ⭐ -->
+<script type="module">
+    import { doc, getDoc, setDoc, updateDoc, increment }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const db = window.firebaseDB;
+
+    async function contadorUnico() {
+        try {
+            // 1️⃣ Revisar si el usuario ya tiene un ID guardado
+            let userId = localStorage.getItem("starpicks_user");
+
+            // 2️⃣ Si NO tiene → crear uno nuevo
+            if (!userId) {
+                userId = crypto.randomUUID();
+                localStorage.setItem("starpicks_user", userId);
+
+                // 3️⃣ Sumar +1 en Firebase
+                const ref = doc(db, "stats", "unique_visits");
+                const snap = await getDoc(ref);
+
+                if (!snap.exists()) {
+                    await setDoc(ref, { count: 1 });
+                    document.getElementById("visitCounter").textContent = 1;
+                } else {
+                    await updateDoc(ref, { count: increment(1) });
+                    const newSnap = await getDoc(ref);
+                    document.getElementById("visitCounter").textContent = newSnap.data().count;
+                }
+            } else {
+                // 4️⃣ Si ya tiene ID → solo mostrar el contador
+                const ref = doc(db, "stats", "unique_visits");
+                const snap = await getDoc(ref);
+
+                if (snap.exists()) {
+                    document.getElementById("visitCounter").textContent = snap.data().count;
+                }
+            }
+
+        } catch (e) {
+            console.error("Error contador único:", e);
+        }
+    }
+
+    contadorUnico();
+</script>
+
 <!-- Script público -->
 <script type="module" src="public.js"></script>
+
+</body>
+</html>
+
 
 </body>
 </html>
