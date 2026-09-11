@@ -576,14 +576,20 @@ tr:hover {
 header {
     position: relative;
 }
+..reacciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .reacciones button {
     background: none;
     border: none;
     padding: 0;
     margin: 0 5px;
-    font-size: 22px;
+    font-size: 22px; /* tamaño de la manito */
     cursor: pointer;
-    color: #00eaff;
+    color: #00eaff; /* color de la manito */
 }
 
 .reacciones button:disabled {
@@ -592,8 +598,7 @@ header {
 }
 
 .reacciones .contador {
-    font-size: 18px;
-    color: #ffffff;
-    margin-right: 10px;
+    font-size: 14px; /* más pequeño */
+    color: #ffffff; /* blanco */
+    font-weight: 600;
 }
-
