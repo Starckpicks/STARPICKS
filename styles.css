@@ -606,3 +606,43 @@ header {
     display: flex;
     align-items: center;
 }
+
+/* --- REACCIONES PERFECTAMENTE ALINEADAS --- */
+.reacciones {
+    display: flex;
+    align-items: center;      /* centra verticalmente */
+    justify-content: center;  /* centra horizontalmente */
+    gap: 8px;                 /* espacio parejo */
+    line-height: 1;           /* evita que los números se bajen */
+    padding: 0 !important;    /* elimina padding del td */
+}
+
+.reacciones button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;          /* tamaño de la manito */
+    cursor: pointer;
+    color: #00eaff;
+    display: flex;
+    align-items: center;      /* centra la manito */
+    justify-content: center;
+}
+
+.reacciones button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.reacciones .contador {
+    font-size: 13px;          /* más pequeño */
+    color: #ffffff;           /* blanco */
+    font-weight: 600;
+    display: flex;
+    align-items: center;      /* centra el número */
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    line-height: 1;           /* evita que se vea más abajo */
+}
