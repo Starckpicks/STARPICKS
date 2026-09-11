@@ -127,7 +127,10 @@ async function cargarJugadasFirestore() {
             <td>${j.hora || "--:--"}</td>
             <td>${j.competicion || "Sin competencia"}</td>
             <td>${j.partido}</td>
-            <td>${j.cuota}</td>
+
+            <!-- ⭐ CORREGIDO: cuotaTotal -->
+            <td>${j.cuotaTotal}</td>
+
             <td>${j.stake}</td>
 
             <td>
