@@ -53,13 +53,17 @@ document.getElementById("agregarPronostico").addEventListener("click", () => {
 });
 
 // ===============================
-// GUARDAR JUGADA
+// GUARDAR JUGADA (FECHA CORREGIDA)
 // ===============================
 document.getElementById("betForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const local = document.getElementById("local").value;
     const visita = document.getElementById("visita").value;
+
+    // ⭐ FECHA DEL PARTIDO (YA NO AUTOMÁTICA)
+    const fecha = document.getElementById("fecha").value;
+
     const hora = document.getElementById("hora").value;
     const competicion = document.getElementById("competicion").value;
 
@@ -84,7 +88,10 @@ document.getElementById("betForm").addEventListener("submit", async (e) => {
         pronosticos,
         cuotaTotal,
         stake,
-        fecha: new Date().toISOString().split("T")[0],
+
+        // ⭐ FECHA REAL DEL PARTIDO
+        fecha,
+
         hora,
         competicion,
         resultadoFinal,
@@ -117,7 +124,6 @@ function mostrarTabla() {
             <td>${j.fecha}</td>
             <td>${j.hora || "--:--"}</td>
 
-            <!-- 🔥 ORDEN CORREGIDO -->
             <td class="${esPremium ? 'premium-blur premium-lock premium-shine' : ''}">
                 ${j.partido}
             </td>
@@ -163,101 +169,6 @@ function mostrarTabla() {
         tbody.appendChild(fila);
     });
 }
-
-// ===============================
-// BORRAR JUGADA (CORREGIDO)
-// ===============================
-async function borrarJugada(index) {
-    const jugada = jugadas[index];
-
-    if (!jugada || !jugada.id) {
-        alert("❌ Esta jugada ya no existe en Firebase.");
-        cargarJugadas();
-        return;
-    }
-
-    await deleteDoc(doc(db, "jugadas", jugada.id));
-    cargarJugadas();
-}
-
-// ===============================
-// EDITAR JUGADA (CORREGIDO)
-// ===============================
-function editarJugada(index) {
-    jugadaActualIndex = index;
-
-    const jugada = jugadas[index];
-    const contenedor = document.getElementById("listaEditarPronosticos");
-
-    contenedor.innerHTML = "";
-
-    jugada.pronosticos.forEach((p, i) => {
-        contenedor.innerHTML += `
-            <div>
-                <strong>${p.nombre}</strong>
-                <select id="editPronostico_${i}">
-                    <option value="pendiente" ${p.resultado === "pendiente" ? "selected" : ""}>Pendiente</option>
-                    <option value="ganado" ${p.resultado === "ganado" ? "selected" : ""}>Ganado</option>
-                    <option value="perdido" ${p.resultado === "perdido" ? "selected" : ""}>Perdido</option>
-                </select>
-            </div>
-        `;
-    });
-
-    document.getElementById("modalEditar").style.display = "block";
-}
-
-document.getElementById("cerrarModalBtn").addEventListener("click", () => {
-    document.getElementById("modalEditar").style.display = "none";
-});
-
-document.getElementById("guardarCambiosBtn").addEventListener("click", async () => {
-    const jugada = jugadas[jugadaActualIndex];
-
-    jugada.pronosticos.forEach((p, i) => {
-        p.resultado = document.getElementById(`editPronostico_${i}`).value;
-    });
-
-    if (jugada.pronosticos.every(p => p.resultado === "ganado")) jugada.resultadoFinal = "ganado";
-    else if (jugada.pronosticos.some(p => p.resultado === "perdido")) jugada.resultadoFinal = "perdido";
-    else jugada.resultadoFinal = "pendiente";
-
-    await updateDoc(doc(db, "jugadas", jugada.id), {
-        pronosticos: jugada.pronosticos,
-        resultadoFinal: jugada.resultadoFinal
-    });
-
-    document.getElementById("modalEditar").style.display = "none";
-    cargarJugadas();
-});
-
-// ===============================
-// DESBLOQUEAR PREMIUM
-// ===============================
-function desbloquearJugada(index) {
-    const modal = document.getElementById("modalYape");
-    modal.style.display = "block";
-    window.jugadaParaDesbloquear = index;
-}
-
-document.getElementById("cerrarYapeBtn").addEventListener("click", () => {
-    document.getElementById("modalYape").style.display = "none";
-});
-
-document.getElementById("confirmarPagoBtn").addEventListener("click", async () => {
-    const index = window.jugadaParaDesbloquear;
-    const jugada = jugadas[index];
-
-    jugada.tipo = "free";
-
-    await updateDoc(doc(db, "jugadas", jugada.id), { tipo: "free" });
-
-    document.getElementById("modalYape").style.display = "none";
-    alert("✔ Jugada desbloqueada correctamente");
-
-    cargarJugadas();
-});
-
 // ===============================
 // DASHBOARD
 // ===============================
@@ -318,6 +229,8 @@ function actualizarCuadroExcel() {
     let anioTotal = 0, anioAciertos = 0, anioFallas = 0;
 
     jugadas.forEach(j => {
+
+        // ⭐ FECHA YA VIENE CORRECTA DESDE EL ADMIN
         const fechaJugada = new Date(j.fecha + "T00:00:00");
 
         if (
@@ -384,6 +297,7 @@ function actualizarCuadroExcel() {
     document.getElementById("anioPorcentaje").textContent =
         anioTotal ? ((anioAciertos / anioTotal) * 100).toFixed(1) + "%" : "0%";
 }
+
 // ===============================
 // HACER FUNCIONES ACCESIBLES DESDE HTML
 // ===============================
