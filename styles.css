@@ -576,77 +576,7 @@ tr:hover {
 header {
     position: relative;
 }
-.reacciones {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px; /* espacio parejo */
-}
-
-.reacciones button {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 22px; /* tamaño de la manito */
-    cursor: pointer;
-    color: #00eaff;
-    display: flex;
-    align-items: center;
-}
-
-.reacciones button:disabled {
-    opacity: 0.4;
-    cursor: default;
-}
-
-.reacciones .contador {
-    font-size: 14px; /* más pequeño */
-    color: #ffffff; /* blanco */
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-}
-
-/* --- REACCIONES PERFECTAMENTE ALINEADAS --- */
-.reacciones {
-    display: flex;
-    align-items: center;      /* centra verticalmente */
-    justify-content: center;  /* centra horizontalmente */
-    gap: 8px;                 /* espacio parejo */
-    line-height: 1;           /* evita que los números se bajen */
-    padding: 0 !important;    /* elimina padding del td */
-}
-
-.reacciones button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-size: 20px;          /* tamaño de la manito */
-    cursor: pointer;
-    color: #00eaff;
-    display: flex;
-    align-items: center;      /* centra la manito */
-    justify-content: center;
-}
-
-.reacciones button:disabled {
-    opacity: 0.4;
-    cursor: default;
-}
-
-.reacciones .contador {
-    font-size: 13px;          /* más pequeño */
-    color: #ffffff;           /* blanco */
-    font-weight: 600;
-    display: flex;
-    align-items: center;      /* centra el número */
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    line-height: 1;           /* evita que se vea más abajo */
-}
-/* FIX DEFINITIVO PARA QUE EL BLOQUE DE REACCIONES NO SE SUBA NI GENERE LÍNEA RARA */
+/* --- REACCIONES HORIZONTALES, CENTRADAS Y SIN LÍNEA RARA --- */
 .reacciones {
     display: flex !important;
     flex-direction: row !important;
@@ -654,9 +584,38 @@ header {
     align-items: center !important;
     gap: 25px !important;
 
-    /* 🔥 ESTO ES LO QUE ARREGLA TU PROBLEMA */
     vertical-align: middle !important;
     border-bottom: 1px solid #ddd !important;
     height: 100% !important;
     padding: 10px 0 !important;
+    line-height: 1 !important;
+}
+
+.reacciones button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 26px;
+    cursor: pointer;
+    color: #00eaff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reacciones button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.reacciones .contador {
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    line-height: 1;
 }
