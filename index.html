@@ -28,7 +28,7 @@
 <section id="lista">
     <h2>Jugadas Registradas</h2>
 
-    <!-- ⭐ CONTADOR DE VISITAS SIMPLE ⭐ -->
+    <!-- ⭐ CONTADOR DE VISITAS SOLO VISUAL (SIN ROMPER NADA) ⭐ -->
     <div style="text-align:center; margin-bottom:15px; color:#00eaff; font-weight:bold;">
         Visitantes:
         <span id="visitCounter">0</span>
@@ -55,7 +55,7 @@
 <!-- Firebase para página pública -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCHYnDqtxzA9nrqFEkZNELtIuonVpBJUsk",
@@ -69,26 +69,8 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
     window.firebaseDB = db;
-
-    // ⭐ CONTADOR DE VISITAS EN FIREBASE
-    (async () => {
-        try {
-            const ref = doc(db, "stats", "public_visits");
-            const snap = await getDoc(ref);
-
-            if (!snap.exists()) {
-                await setDoc(ref, { count: 1 });
-                document.getElementById("visitCounter").textContent = 1;
-            } else {
-                await updateDoc(ref, { count: increment(1) });
-                const newSnap = await getDoc(ref);
-                document.getElementById("visitCounter").textContent = newSnap.data().count;
-            }
-        } catch (e) {
-            console.error("Error contador visitas:", e);
-        }
-    })();
 </script>
 
 <!-- Script público -->
@@ -97,6 +79,3 @@
 </body>
 </html>
 
-
-    <!-- ⭐ CONTADOR DE VISITAS ⭐ -->
-    <div style="text-align:center; margin-bottom:15px;">
