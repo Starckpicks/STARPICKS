@@ -43,7 +43,70 @@ function actualizarBotones(id) {
     });
 }
 
+// ===============================
+// REACCIONES LIKE / DISLIKE — HORIZONTAL Y ADAPTADO
+// ===============================
+function generarReaccionesHTML(j, id, yaVoto) {
+    return `
+        <td style="
+            display:flex;
+            flex-direction:row;
+            justify-content:center;
+            align-items:center;
+            gap:20px;
+            width:100%;
+            padding:10px 0;
+        ">
+
+            <!-- LIKE -->
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <button 
+                    data-id="${id}"
+                    onclick="darLike('${id}', ${j.likes || 0})"
+                    ${yaVoto ? "disabled style='opacity:0.4; cursor:not-allowed;'" : ""}
+                    style="
+                        font-size:26px;
+                        background:none;
+                        border:none;
+                        cursor:pointer;
+                        line-height:1;
+                    "
+                >
+                    👍
+                </button>
+                <span style="font-size:15px; font-weight:bold; margin-top:4px;">
+                    ${j.likes || 0}
+                </span>
+            </div>
+
+            <!-- DISLIKE -->
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <button 
+                    data-id="${id}"
+                    onclick="darDislike('${id}', ${j.dislikes || 0})"
+                    ${yaVoto ? "disabled style='opacity:0.4; cursor:not-allowed;'" : ""}
+                    style="
+                        font-size:26px;
+                        background:none;
+                        border:none;
+                        cursor:pointer;
+                        line-height:1;
+                    "
+                >
+                    👎
+                </button>
+                <span style="font-size:15px; font-weight:bold; margin-top:4px;">
+                    ${j.dislikes || 0}
+                </span>
+            </div>
+
+        </td>
+    `;
+}
+
+// ===============================
 // CARGAR JUGADAS DESDE FIRESTORE
+// ===============================
 async function cargarJugadasFirestore() {
     const jugadasRef = collection(db, "jugadas");
     const snapshot = await getDocs(jugadasRef);
@@ -88,25 +151,7 @@ async function cargarJugadasFirestore() {
                 }
             </td>
 
-            <td class="reacciones">
-                <button 
-                    data-id="${id}"
-                    onclick="darLike('${id}', ${j.likes || 0})"
-                    ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
-                >
-                    👍
-                </button>
-                <span class="contador">${j.likes || 0}</span>
-
-                <button 
-                    data-id="${id}"
-                    onclick="darDislike('${id}', ${j.dislikes || 0})"
-                    ${yaVoto ? "disabled style='opacity:0.4;'" : ""}
-                >
-                    👎
-                </button>
-                <span class="contador">${j.dislikes || 0}</span>
-            </td>
+            ${generarReaccionesHTML(j, id, yaVoto)}
         `;
 
         tbody.appendChild(fila);
