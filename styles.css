@@ -576,4 +576,21 @@ tr:hover {
 header {
     position: relative;
 }
+.reacciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.reacciones button {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.reacciones .contador {
+    font-size: 18px;
+    color: #00eaff;
+}
 
