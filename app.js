@@ -86,7 +86,7 @@ document.getElementById("betForm").addEventListener("submit", async (e) => {
     const nuevaJugada = {
         partido: `${local} vs ${visita}`,
         pronosticos,
-        cuotaTotal,
+        cuotaTotal,   // ⭐ ESTE ES EL NOMBRE CORRECTO
         stake,
         fecha,
         hora,
@@ -128,7 +128,7 @@ function mostrarTabla() {
             <td>${j.competicion || "Sin competencia"}</td>
 
             <td class="${esPremium ? 'premium-blur premium-lock premium-shine' : ''}">
-                ${j.cuotaTotal}
+                ${j.cuotaTotal}   <!-- ⭐ CORREGIDO -->
             </td>
 
             <td class="${esPremium ? 'premium-blur premium-lock premium-shine' : ''}">
@@ -260,6 +260,7 @@ document.getElementById("confirmarPagoBtn").addEventListener("click", async () =
 
     cargarJugadas();
 });
+
 
 // ===============================
 // DASHBOARD
