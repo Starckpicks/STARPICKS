@@ -646,12 +646,17 @@ header {
     padding: 0;
     line-height: 1;           /* evita que se vea más abajo */
 }
-/* FIX DEFINITIVO PARA REACCIONES */
+/* FIX DEFINITIVO PARA QUE EL BLOQUE DE REACCIONES NO SE SUBA NI GENERE LÍNEA RARA */
 .reacciones {
     display: flex !important;
     flex-direction: row !important;
     justify-content: center !important;
     align-items: center !important;
     gap: 25px !important;
+
+    /* 🔥 ESTO ES LO QUE ARREGLA TU PROBLEMA */
+    vertical-align: middle !important;
+    border-bottom: 1px solid #ddd !important;
+    height: 100% !important;
     padding: 10px 0 !important;
 }
