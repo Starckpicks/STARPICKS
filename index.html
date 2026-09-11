@@ -28,5 +28,75 @@
 <section id="lista">
     <h2>Jugadas Registradas</h2>
 
+    <!-- ⭐ CONTADOR DE VISITAS SIMPLE ⭐ -->
+    <div style="text-align:center; margin-bottom:15px; color:#00eaff; font-weight:bold;">
+        Visitantes:
+        <span id="visitCounter">0</span>
+    </div>
+
+    <table id="tablaJugadas">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Competición</th>
+                <th>Partido</th>
+                <th>Cuota</th>
+                <th>Stake</th>
+                <th>Pronósticos</th>
+                <th>Resultado Final</th>
+                <th>Reacciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+<!-- Firebase para página pública -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHYnDqtxzA9nrqFEkZNELtIuonVpBJUsk",
+        authDomain: "starpicks-8a477.firebaseapp.com",
+        projectId: "starpicks-8a477",
+        storageBucket: "starpicks-8a477.firebasestorage.app",
+        messagingSenderId: "444164019875",
+        appId: "1:444164019875:web:20651ceffabba3446d1116",
+        measurementId: "G-13407KYWJ8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.firebaseDB = db;
+
+    // ⭐ CONTADOR DE VISITAS EN FIREBASE
+    (async () => {
+        try {
+            const ref = doc(db, "stats", "public_visits");
+            const snap = await getDoc(ref);
+
+            if (!snap.exists()) {
+                await setDoc(ref, { count: 1 });
+                document.getElementById("visitCounter").textContent = 1;
+            } else {
+                await updateDoc(ref, { count: increment(1) });
+                const newSnap = await getDoc(ref);
+                document.getElementById("visitCounter").textContent = newSnap.data().count;
+            }
+        } catch (e) {
+            console.error("Error contador visitas:", e);
+        }
+    })();
+</script>
+
+<!-- Script público -->
+<script type="module" src="public.js"></script>
+
+</body>
+</html>
+
+
     <!-- ⭐ CONTADOR DE VISITAS ⭐ -->
     <div style="text-align:center; margin-bottom:15px;">
