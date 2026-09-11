@@ -384,3 +384,9 @@ function actualizarCuadroExcel() {
     document.getElementById("anioPorcentaje").textContent =
         anioTotal ? ((anioAciertos / anioTotal) * 100).toFixed(1) + "%" : "0%";
 }
+// ===============================
+// HACER FUNCIONES ACCESIBLES DESDE HTML
+// ===============================
+window.editarJugada = editarJugada;
+window.borrarJugada = borrarJugada;
+window.desbloquearJugada = desbloquearJugada;
