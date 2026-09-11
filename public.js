@@ -22,7 +22,7 @@ async function cargarJugadasFirestore() {
             <td>${j.fecha || "-"}</td>
             <td>${j.hora || "--:--"}</td>
             <td>${j.competicion || "Sin competencia"}</td>
-            <td>${j.local} vs ${j.visita}</td>
+            <td>${j.partido}</td>
             <td>${j.cuota}</td>
             <td>${j.stake}</td>
 
@@ -55,6 +55,11 @@ async function cargarJugadasFirestore() {
 
         tbody.appendChild(fila);
     });
+}
+
+// INICIO
+cargarJugadasFirestore();
+
 }
 
 // INICIO
