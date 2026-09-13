@@ -1,15 +1,56 @@
 console.log("StarPicks Público v3 conectado a Firestore...");
 
-import { collection, getDocs, doc, updateDoc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    collection, 
+    getDocs, 
+    doc, 
+    updateDoc, 
+    getDoc, 
+    setDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = window.firebaseDB;
 
+// ===============================
+// CONTADOR DE VISITAS ÚNICAS
+// ===============================
+async function contadorVisitas() {
+    const ref = doc(db, "stats", "unique_visits");
+
+    // Verificar si el usuario ya contó
+    if (localStorage.getItem("visitadoStarPicks")) {
+        console.log("Ya contaste esta visita.");
+        return;
+    }
+
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+        // Si no existe, lo creamos en 1
+        await setDoc(ref, { count: 1 });
+        localStorage.setItem("visitadoStarPicks", "true");
+        console.log("Primera visita registrada.");
+        return;
+    }
+
+    const datos = snap.data();
+    const nuevoTotal = (datos.count || 0) + 1;
+
+    await updateDoc(ref, { count: nuevoTotal });
+
+    localStorage.setItem("visitadoStarPicks", "true");
+    console.log("Visita sumada. Total:", nuevoTotal);
+}
+
+// ===============================
 // Cargar votos del usuario (localStorage)
+// ===============================
 let votosUsuario = JSON.parse(localStorage.getItem("votosStarPicks")) || {}; 
 // votosUsuario[id] = "like" o "dislike"
 
+// ===============================
 // FUNCIONES DE LIKE / DISLIKE
+// ===============================
 async function darLike(id, likesActuales) {
     if (votosUsuario[id]) return alert("Ya votaste esta jugada");
 
@@ -34,7 +75,9 @@ async function darDislike(id, dislikesActuales) {
     actualizarBotones(id);
 }
 
+// ===============================
 // DESACTIVAR BOTONES DESPUÉS DE VOTAR
+// ===============================
 function actualizarBotones(id) {
     const botones = document.querySelectorAll(`button[data-id='${id}']`);
     botones.forEach(btn => {
@@ -44,7 +87,7 @@ function actualizarBotones(id) {
 }
 
 // ===============================
-// REACCIONES LIKE / DISLIKE — HORIZONTAL Y ADAPTADO
+// REACCIONES LIKE / DISLIKE — HORIZONTAL
 // ===============================
 function generarReaccionesHTML(j, id, yaVoto) {
     return `
@@ -128,7 +171,6 @@ async function cargarJugadasFirestore() {
             <td>${j.competicion || "Sin competencia"}</td>
             <td>${j.partido}</td>
 
-            <!-- ⭐ CORREGIDO: cuotaTotal -->
             <td>${j.cuotaTotal}</td>
 
             <td>${j.stake}</td>
@@ -161,9 +203,13 @@ async function cargarJugadasFirestore() {
     });
 }
 
+// ===============================
 // INICIO
+// ===============================
 cargarJugadasFirestore();
+contadorVisitas();
 
 // Exponer funciones al DOM
 window.darLike = darLike;
 window.darDislike = darDislike;
+
