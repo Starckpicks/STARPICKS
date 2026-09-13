@@ -78,14 +78,15 @@
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     async function contadorUnico() {
-        const db = window.firebaseDB;
 
         // Esperar a que Firebase esté listo
-        if (!db) {
-            console.log("Esperando Firebase...");
+        if (!window.firebaseDB) {
+            console.log("Firebase aún no está listo, reintentando...");
             setTimeout(contadorUnico, 300);
             return;
         }
+
+        const db = window.firebaseDB;
 
         let userId = localStorage.getItem("starpicks_user");
         const ref = doc(db, "stats", "unique_visits");
@@ -117,6 +118,11 @@
 </script>
 
 <!-- Script público -->
+<script type="module" src="public.js"></script>
+
+</body>
+</html>
+
 <script type="module" src="public.js"></script>
 
 </body>
