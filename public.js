@@ -20,6 +20,12 @@ async function contadorVisitas() {
     // Verificar si el usuario ya contó
     if (localStorage.getItem("visitadoStarPicks")) {
         console.log("Ya contaste esta visita.");
+
+        // Mostrar el número actual
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+            document.getElementById("visitCounter").textContent = snap.data().count;
+        }
         return;
     }
 
@@ -29,6 +35,8 @@ async function contadorVisitas() {
         // Si no existe, lo creamos en 1
         await setDoc(ref, { count: 1 });
         localStorage.setItem("visitadoStarPicks", "true");
+
+        document.getElementById("visitCounter").textContent = 1;
         console.log("Primera visita registrada.");
         return;
     }
@@ -39,6 +47,10 @@ async function contadorVisitas() {
     await updateDoc(ref, { count: nuevoTotal });
 
     localStorage.setItem("visitadoStarPicks", "true");
+
+    // Mostrar en pantalla
+    document.getElementById("visitCounter").textContent = nuevoTotal;
+
     console.log("Visita sumada. Total:", nuevoTotal);
 }
 
@@ -212,4 +224,3 @@ contadorVisitas();
 // Exponer funciones al DOM
 window.darLike = darLike;
 window.darDislike = darDislike;
-
