@@ -72,51 +72,6 @@
     window.firebaseDB = db;
 </script>
 
-<!-- ⭐ CONTADOR FINAL CORREGIDO ⭐ -->
-<script type="module">
-    import { doc, getDoc, setDoc, updateDoc }
-    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    async function contadorUnico() {
-
-        // Esperar a que Firebase esté listo
-        if (!window.firebaseDB) {
-            console.log("Firebase aún no está listo, reintentando...");
-            setTimeout(contadorUnico, 300);
-            return;
-        }
-
-        const db = window.firebaseDB;
-
-        let userId = localStorage.getItem("starpicks_user");
-        const ref = doc(db, "stats", "unique_visits");
-        const snap = await getDoc(ref);
-
-        // Si NO tiene ID → sumar +1
-        if (!userId) {
-            userId = crypto.randomUUID();
-            localStorage.setItem("starpicks_user", userId);
-
-            if (!snap.exists()) {
-                await setDoc(ref, { count: 1 });
-                document.getElementById("visitCounter").textContent = 1;
-            } else {
-                const nuevoTotal = (snap.data().count || 0) + 1;
-                await updateDoc(ref, { count: nuevoTotal });
-                document.getElementById("visitCounter").textContent = nuevoTotal;
-            }
-
-        } else {
-            // Si ya tiene ID → solo mostrar
-            if (snap.exists()) {
-                document.getElementById("visitCounter").textContent = snap.data().count;
-            }
-        }
-    }
-
-    contadorUnico();
-</script>
-
 <!-- Script público -->
 <script type="module" src="public.js"></script>
 
